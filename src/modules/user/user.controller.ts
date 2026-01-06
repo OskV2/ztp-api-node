@@ -3,7 +3,9 @@ import * as userService from './user.service';
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const user = await userService.getAllUsers();
+    const includeProfile = req.query.profile === 'true'  //  Default false
+
+    const user = await userService.getAllUsers({ includeProfile });
     res.status(200).json(user);
   } catch (err) {
     console.error(err);
