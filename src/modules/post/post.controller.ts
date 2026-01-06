@@ -3,7 +3,14 @@ import * as postService from './post.service';
 
 export const getAllPosts = async (req: Request, res: Response) => {
   try {
-    const user = await postService.getAllPosts();
+    const includeTags = req.query.tags === 'true'; // default false
+    const includeAuthor = req.query.author === 'true'; // default false
+    
+    const user = await postService.getAllPosts({ 
+      includeTags, 
+      includeAuthor 
+    });
+    
     res.status(200).json(user);
   } catch (err) {
     console.error(err);

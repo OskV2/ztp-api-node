@@ -1,8 +1,18 @@
 import prisma from '../../db';
 import { Prisma, User } from '@prisma/client';
 
-export const getAllPosts = async () => {
-  return await prisma.post.findMany();
+type GetPostsOptions = {
+  includeTags?: boolean;
+  includeAuthor?: boolean
+};
+
+export const getAllPosts = async (options: GetPostsOptions = {}) => {
+  return await prisma.post.findMany({
+    include: {
+      tags: options.includeTags,
+      author: options.includeAuthor
+    }
+  });
 }
 
 export const createPost = async (data: Prisma.PostCreateInput) => {
