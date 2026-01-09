@@ -6,9 +6,16 @@ export const getAllPosts = async (req: Request, res: Response) => {
     const includeTags = req.query.tags === 'true'; // default false
     const includeAuthor = req.query.author === 'true'; // default false
     
-    const user = await postService.getAllPosts({ 
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+
+    const skip = (page - 1) * limit;
+
+    const user = await postService.getAllPosts({
       includeTags, 
-      includeAuthor 
+      includeAuthor,
+      skip,
+      take: limit
     });
     
     res.status(200).json(user);

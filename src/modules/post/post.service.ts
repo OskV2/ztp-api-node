@@ -3,7 +3,9 @@ import { Prisma, User } from '@prisma/client';
 
 type GetPostsOptions = {
   includeTags?: boolean;
-  includeAuthor?: boolean
+  includeAuthor?: boolean;
+  skip?: number;
+  take?: number;
 };
 
 export const getAllPosts = async (options: GetPostsOptions = {}) => {
@@ -11,7 +13,9 @@ export const getAllPosts = async (options: GetPostsOptions = {}) => {
     include: {
       tags: options.includeTags,
       author: options.includeAuthor
-    }
+    },
+    skip: options.skip,
+    take: options.take
   });
 }
 
